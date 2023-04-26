@@ -29,7 +29,7 @@ pub fn encode_ktx2(
         0xAB, 0x4B, 0x54, 0x58, 0x20, 0x32, 0x30, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A,
     ]);
     contents.extend_from_slice(&format.0.get().to_le_bytes());
-    contents.extend_from_slice(&TYPE_SIZES[format.0.get() as usize].to_le_bytes());
+    contents.extend_from_slice(&(TYPE_SIZES[format.0.get() as usize] as u32).to_le_bytes());
     contents.extend_from_slice(&width.to_le_bytes());
     contents.extend_from_slice(&height.to_le_bytes());
     contents.extend_from_slice(&depth.to_le_bytes());
