@@ -114,7 +114,11 @@ pub fn encode_ktx2(
             for i in 0..samples {
                 contents.extend_from_slice(&(i as u16 * 32).to_le_bytes()); // bitOffset
                 contents.push(31); // bitLength
-                contents.push(if i == 3 { 0b1101_1111 } else { 0b1100_0000 | i as u8 }); // channelType + F[loat] + S[igned] + E[ponent] + L[inear]
+                contents.push(if i == 3 {
+                    0b1101_1111
+                } else {
+                    0b1100_0000 | i as u8
+                }); // channelType + F[loat] + S[igned] + E[ponent] + L[inear]
                 contents.extend_from_slice(&[0; 4]); // samplePosition[0..3]
                 contents.extend_from_slice(&0u32.to_le_bytes()); // sampleLower
                 contents.extend_from_slice(&u32::MAX.to_le_bytes()); // sampleUpper
@@ -148,7 +152,10 @@ pub fn encode_ktx2(
         contents.resize((contents.len() & !3) + 4, 0);
     }
 
-    assert_eq!(contents.len(), 80 + 24 * levels as usize + dfd_size as usize);
+    assert_eq!(
+        contents.len(),
+        80 + 24 * levels as usize + dfd_size as usize
+    );
     for image_slice in compressed_image_slices {
         contents.extend_from_slice(&image_slice);
     }
