@@ -6,6 +6,7 @@ pub fn encode_ktx2(
     height: u32,
     depth: u32,
     layers: u32,
+    cubemap: bool,
     format: ktx2::Format,
 ) -> Vec<u8> {
     let samples: u16 = match format {
@@ -44,7 +45,11 @@ pub fn encode_ktx2(
     contents.extend_from_slice(&height.to_le_bytes());
     contents.extend_from_slice(&depth.to_le_bytes());
     contents.extend_from_slice(&layers.to_le_bytes());
-    contents.extend_from_slice(&1u32.to_le_bytes()); // faces
+    if cubemap { // faces
+        contents.extend_from_slice(&6u32.to_le_bytes());
+    } else {
+        contents.extend_from_slice(&1u32.to_le_bytes());
+    }
     contents.extend_from_slice(&levels.to_le_bytes()); // levels
     contents.extend_from_slice(&2u32.to_le_bytes()); // supercompressionScheme = zstd
 
