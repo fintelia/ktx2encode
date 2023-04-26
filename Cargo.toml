@@ -1,0 +1,12 @@
+[package]
+authors = ["Jonathan Behrens <fintelia@gmail.com>"]
+description = "Opinionated KTX2 encoding library"
+edition = "2021"
+license = "MIT OR Apache-2.0"
+name = "ktx2encode"
+repository = "https://github.com/fintelia/ktx2encode"
+version = "0.1.0"
+
+[dependencies]
+ktx2 = "0.3.0"
+zstd = "0.12.3"
