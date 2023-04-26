@@ -3,6 +3,8 @@ mod dfd_table;
 pub use dfd_table::DFD_TABLE;
 pub use ktx2::Format;
 
+use crate::dfd_table::TYPE_SIZES;
+
 pub fn encode_ktx2(
     image_slices: &[Vec<u8>],
     width: u32,
@@ -12,7 +14,10 @@ pub fn encode_ktx2(
     cubemap: bool,
     format: ktx2::Format,
 ) -> Vec<u8> {
-    if format.0.get() as usize >= DFD_TABLE.len() || DFD_TABLE[format.0.get() as usize].is_empty() {
+    if format.0.get() as usize >= DFD_TABLE.len()
+        || DFD_TABLE[format.0.get() as usize].is_empty()
+        || TYPE_SIZES[format.0.get() as usize] == 0
+    {
         panic!("Unsupported format {:?}", format);
     }
     let dfd = DFD_TABLE[format.0.get() as usize];
@@ -24,7 +29,7 @@ pub fn encode_ktx2(
         0xAB, 0x4B, 0x54, 0x58, 0x20, 0x32, 0x30, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A,
     ]);
     contents.extend_from_slice(&format.0.get().to_le_bytes());
-    contents.extend_from_slice(&1u32.to_le_bytes());
+    contents.extend_from_slice(&TYPE_SIZES[format.0.get() as usize].to_le_bytes());
     contents.extend_from_slice(&width.to_le_bytes());
     contents.extend_from_slice(&height.to_le_bytes());
     contents.extend_from_slice(&depth.to_le_bytes());
