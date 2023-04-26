@@ -12,7 +12,7 @@ pub fn encode_ktx2(
     cubemap: bool,
     format: ktx2::Format,
 ) -> Vec<u8> {
-    if format.0.get() as usize > DFD_TABLE.len() || DFD_TABLE[format.0.get() as usize].is_empty() {
+    if format.0.get() as usize >= DFD_TABLE.len() || DFD_TABLE[format.0.get() as usize].is_empty() {
         panic!("Unsupported format {:?}", format);
     }
     let dfd = DFD_TABLE[format.0.get() as usize];
