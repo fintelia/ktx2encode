@@ -1,4 +1,4 @@
-use ktx2::Format;
+pub use ktx2::Format;
 
 pub fn encode_ktx2(
     image_slices: &[Vec<u8>],
